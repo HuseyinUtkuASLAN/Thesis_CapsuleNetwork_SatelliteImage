@@ -1,3 +1,4 @@
+'''Script to run divide and merge operation.'''
 import os
 from divide_image import divide_and_save_by_band_RGB
 from merge import merge

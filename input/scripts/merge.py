@@ -1,4 +1,4 @@
-import os
+"""Routine for merging divided classes and putting them in folders"""
 import numpy as np
 
 '''
@@ -8,7 +8,18 @@ B = band 2
 '''
 
 def merge(load_path,save_path):
+	"""Merges divided files. Saves every class to appropriate folder
 
+	Recommendation: Run divide before running merging operation
+
+	Args:
+		load_path: path to divided input file
+		save_path: where to save merged data
+
+	Returns:
+		None
+
+	"""
 	agri = []
 	build = []
 	tree = []
