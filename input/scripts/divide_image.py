@@ -38,7 +38,7 @@ def divide(image_size_x, image_size_y, file_path, image_path):
 		line = line.split(' ')
 		x = int(line[0].strip()) - 16
 		y = int(line[1].strip()) - 16
-		y_n = 0
+		
 		
 
 
@@ -53,17 +53,91 @@ def divide(image_size_x, image_size_y, file_path, image_path):
 
 		if int(line[1].strip()) + 16 > imarray.shape[1]: 
 			print (file.name ,"y out of bound ", y , "\tpivot moved")
-			y = imarray.shape[1] - 16
+			y = imarray.shape[0] - 16
 		if int(line[1].strip()) - 16 < 0:
 			print (file.name ,"y out of bound ", y , "\tpivot moved")
 			y = 16
 		
-		img2 = imarray[x:x+image_size_x,y:y+image_size_y]
+		img = imarray[x:x+image_size_x,y:y+image_size_y]
 
-		array.append(img2)
+		array.append(img)
 
 	array = np.array(array)
 	return array
+
+def divide_test(image_size_x, image_size_y, file_path, image_path, unclassified = False):
+	"""Divides big image into smaller parts corresponds to given coordinates for TEST DATA
+
+	Recommendation: Run divide before running merging operation.
+		Creates a pivot that postions itself to top right of the croped image.
+		If croped image is not in the boundaries of original image, pivot is shifted to fit in the original image. 
+
+	Args:
+		image_size_x: width of output
+		image_size_y: heigth of output
+		file_path: path of coordinates
+		image_path: path of big image
+		unclassified: wheter or not using unclassified data in validation points
+
+
+	Returns:
+		array: a numpy array of croped images
+		labels: a numpy array for classes
+
+	"""
+	
+	file = open(file_path, "r")
+	im = Image.open(image_path)
+	imarray = np.array(im)
+
+	x_size = image_size_x / 2
+	y_size = image_size_y / 2
+
+	array = []
+	labels = []
+
+	label_def = ["agri","tree","build","water","unclassified"]
+
+	
+	for line in file:
+		line = line.split(' ')
+		x = int(line[0].strip()) - 16
+		y = int(line[1].strip()) - 16
+		# labels of test classes // validation has 3 columns
+		l = int(line[2].strip())
+		
+
+		if l == 5 and not unclassified:
+			continue
+
+
+		if int(line[0].strip()) + 16 > imarray.shape[0]: 
+			print (file.name ,"x out of bound ", x , "\tpivot moved")
+			x = imarray.shape[0] - 16
+		if int(line[0].strip()) - 16 < 0:
+			print (file.name ,"x out of bound ", x , "\tpivot moved")
+			x = 16
+
+		
+
+		if int(line[1].strip()) + 16 > imarray.shape[1]: 
+			print (file.name ,"y out of bound ", y , "\tpivot moved")
+			y = imarray.shape[0] - 16
+		if int(line[1].strip()) - 16 < 0:
+			print (file.name ,"y out of bound ", y , "\tpivot moved")
+			y = 16
+		
+		img = imarray[x:x+image_size_x,y:y+image_size_y]
+		array.append(img)
+
+		label = label_def[l-1]
+		labels.append(label)
+
+
+	array = np.array(array)
+	labels = np.array(labels)
+	return array, labels
+
 		
 def divide_and_save_by_band_RGB(load_path, save_path):
 	"""Divides big image into smaller parts corresponds to given coordinates and saves them as npy.
@@ -128,4 +202,63 @@ def divide_and_save_by_band_RGB(load_path, save_path):
 	np.save(save_path + "/tree_np_k2b",tree_np_k2b)
 	np.save(save_path + "/water_np_k2b",water_np_k2b)
 
-# divide_and_save_by_band_RGB("../raw_iputs","../inputs/by_bands")
+	test_k2b_x, test_k2b_y = divide_test(image_size_x, image_size_y, load_path + "/validationPoints.txd", load_path + "/k2b.tif")
+	test_k3b_x, test_k3b_y = divide_test(image_size_x, image_size_y, load_path + "/validationPoints.txd", load_path + "/k3b.tif")
+	test_k4b_x, test_k4b_y = divide_test(image_size_x, image_size_y, load_path + "/validationPoints.txd", load_path + "/k4b.tif")
+
+	def test_array(test_x, test_y):
+		agri = []
+		tree = []
+		water = []
+		build = []
+
+		for i,y in enumerate(test_y):
+			if y == "agri":
+				agri.append(test_x[i])
+			elif y == "tree":
+				tree.append(test_x[i])
+			elif y == "water":
+				water.append(test_x[i])
+			elif y == "build":
+				build.append(test_x[i])
+			else:
+				print("ERRORRRRRR!!!!!!!!!!!!")
+
+		return agri, tree, water, build
+
+
+	agri_tst_k2b, tree_tst_k2b, water_tst_k2b, build_tst_k2b = test_array(test_k2b_x,test_k2b_y)
+	agri_tst_k3b, tree_tst_k3b, water_tst_k3b, build_tst_k3b = test_array(test_k3b_x,test_k3b_y)
+	agri_tst_k4b, tree_tst_k4b, water_tst_k4b, build_tst_k4b = test_array(test_k4b_x,test_k4b_y)
+
+	np.save(save_path + "/agri_tst_k2b",agri_tst_k2b)
+	np.save(save_path + "/build_tst_k2b",build_tst_k2b)
+	np.save(save_path + "/tree_tst_k2b",tree_tst_k2b)
+	np.save(save_path + "/water_tst_k2b",water_tst_k2b)
+
+	np.save(save_path + "/agri_tst_k3b",agri_tst_k3b)
+	np.save(save_path + "/build_tst_k3b",build_tst_k3b)
+	np.save(save_path + "/tree_tst_k3b",tree_tst_k3b)
+	np.save(save_path + "/water_tst_k3b",water_tst_k3b)
+
+	np.save(save_path + "/agri_tst_k4b",agri_tst_k4b)
+	np.save(save_path + "/build_tst_k4b",build_tst_k4b)
+	np.save(save_path + "/tree_tst_k4b",tree_tst_k4b)
+	np.save(save_path + "/water_tst_k4b",water_tst_k4b)
+
+
+divide_and_save_by_band_RGB("../raw_iputs","../inputs/by_bands")
+# x,y = divide_test(image_size_x, image_size_y, "../raw_iputs/validationPoints.txd", "../raw_iputs/k2b.tif")
+# print(x.shape)
+# print(y.shape)
+# water_np_k2b = divide(image_size_x, image_size_y, "../raw_iputs/validationPoints.txd", "../raw_iputs/k2b.tif")
+
+# d = divide_test(image_size_x, image_size_y, "../raw_iputs/validationPoints.txd", "../raw_iputs/k2b.tif",True)
+
+# import tensor
+
+# x_tr,y_tr,l_tr = tensor.get_data_set()
+
+# print(x_tr.shape)
+# print(y_tr.shape)
+# print(l_tr)
