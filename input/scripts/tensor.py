@@ -9,7 +9,7 @@ import pickle
 def get_data_set(name = "train",normalize = False):
 	x = []
 	y = []
-	l = ["agriculture", "building", "tree", "water"]
+	l = ["agriculture", "tree", "building", "water"]
 
 	folder_name = "../inputs/merged/"
 
