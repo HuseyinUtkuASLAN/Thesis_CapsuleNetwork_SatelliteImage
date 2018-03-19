@@ -43,19 +43,19 @@ def divide(image_size_x, image_size_y, file_path, image_path):
 
 
 		if int(line[0].strip()) + 16 > imarray.shape[0]: 
-			print file.name ,"x out of bound ", x , "\tpivot moved"
+			print (file.name ,"x out of bound ", x , "\tpivot moved")
 			x = imarray.shape[0] - 16
 		if int(line[0].strip()) - 16 < 0:
-			print file.name ,"x out of bound ", x , "\tpivot moved"
+			print (file.name ,"x out of bound ", x , "\tpivot moved")
 			x = 16
 
 		
 
 		if int(line[1].strip()) + 16 > imarray.shape[1]: 
-			print file.name ,"y out of bound ", y , "\tpivot moved"
+			print (file.name ,"y out of bound ", y , "\tpivot moved")
 			y = imarray.shape[1] - 16
 		if int(line[1].strip()) - 16 < 0:
-			print file.name ,"y out of bound ", y , "\tpivot moved"
+			print (file.name ,"y out of bound ", y , "\tpivot moved")
 			y = 16
 		
 		img2 = imarray[x:x+image_size_x,y:y+image_size_y]

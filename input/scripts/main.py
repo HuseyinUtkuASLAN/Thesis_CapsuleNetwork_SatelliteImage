@@ -20,17 +20,17 @@ _create_folder("../inputs/merged/water")
 # _create_folder(save_path + "/tree")
 # _create_folder(save_path + "/water")
 
-print "Divinding images by bands"
-print "--------------------------\n\n"
+print ("Divinding images by bands")
+print ("--------------------------\n\n")
 divide_and_save_by_band_RGB("../raw_iputs","../inputs/by_bands")
 
-print "\n\nImages divided by band"
-print "--------------------------\n\n"
+print ("\n\nImages divided by band")
+print ("--------------------------\n\n")
 
-print "merging images"
-print "--------------------------"
+print ("merging images")
+print ("--------------------------")
 
 merge("../inputs/by_bands","../inputs/merged")
 # merge here
-print "\nMerge complete"
-print "--------------------------\n\n"
+print ("\nMerge complete")
+print ("--------------------------\n\n")
