@@ -13,6 +13,21 @@ def get_data_set(name = "train",normalize = False):
 
 	folder_name = "../inputs/merged/"
 
+	def label_index(label):
+		i = 0
+		if label == "agri":
+			i = 0
+		elif label == "tree":
+			i = 1
+		elif label == "build":
+			i = 2
+		elif label == "water":
+			i = 3
+		elif label == "unclassified":
+			i = 4
+		else:
+			print("ERROR LABEL!!!!!")
+
 	if name == "train":
 		files = []
 		dirs = []
@@ -27,10 +42,11 @@ def get_data_set(name = "train",normalize = False):
 			
 			reshaped = []
 
+
 			for d in data:
 				reshaped.append(d.flatten())
 				y_row = np.zeros(len(dirs))
-				y_row[i] = 1
+				y_row[label_index(dirs[i])] = 1
 				y_class.append(y_row)
 			y.extend(y_class)
 			x.extend(reshaped)
