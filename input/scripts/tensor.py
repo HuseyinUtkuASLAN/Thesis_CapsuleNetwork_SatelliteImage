@@ -12,6 +12,10 @@ def get_data_set(name = "train",normalize = False):
 	l = ["agriculture", "tree", "building", "water"]
 
 	folder_name = "../inputs/merged/"
+	if name == "train":
+		folder_name += "train/"
+	elif name == "test":
+		folder_name += "test/"
 
 	def label_index(label):
 		i = 0
@@ -28,36 +32,42 @@ def get_data_set(name = "train",normalize = False):
 		else:
 			print("ERROR LABEL!!!!!")
 
-	if name == "train":
-		files = []
-		dirs = []
-		for (dirpath, dirnames, filenames) in walk(folder_name):
-			dirs.extend(dirnames)
-			files.extend(filenames)
-
-		for i,file_name in enumerate(files):
-			y_class = []
-			# read data
-			data = np.load(folder_name + dirs[i] + "/" + file_name)
-			
-			reshaped = []
+		return i
 
 
-			for d in data:
-				reshaped.append(d.flatten())
-				y_row = np.zeros(len(dirs))
-				y_row[label_index(dirs[i])] = 1
-				y_class.append(y_row)
-			y.extend(y_class)
-			x.extend(reshaped)
-			
-			# create labels
-			
+	files = []
+	dirs = []
+	for (dirpath, dirnames, filenames) in walk(folder_name):
+		dirs.extend(dirnames)
+		files.extend(filenames)
+
+	for i,file_name in enumerate(files):
+		y_class = []
+		# read data
+		data = np.load(folder_name + dirs[i] + "/" + file_name)
+		
+		reshaped = []
+
+
+		for d in data:
+			reshaped.append(d.flatten())
+			y_row = np.zeros(len(dirs))
+			y_row[label_index(dirs[i])] = 1
+			y_class.append(y_row)
+		y.extend(y_class)
+		x.extend(reshaped)
+		
+		# create labels
+		
 	# normalzie numpy matrix
-	def nomalize(x):
+	def nomalize_matrix(x):
+		x = np.array(x)
 		return (x - x.min()) / (x.max()-x.min())
 	if normalize:
-		x = normalize(x)
+		x = nomalize_matrix(x)
 	
 
 	return np.array(x), np.array(y), l
+
+# print(get_data_set(name = "train",normalize = True))
+# get_data_set(name = "train")[0].shape
