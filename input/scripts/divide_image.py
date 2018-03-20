@@ -245,20 +245,3 @@ def divide_and_save_by_band_RGB(load_path, save_path):
 	np.save(save_path + "/build_tst_k4b",build_tst_k4b)
 	np.save(save_path + "/tree_tst_k4b",tree_tst_k4b)
 	np.save(save_path + "/water_tst_k4b",water_tst_k4b)
-
-
-divide_and_save_by_band_RGB("../raw_iputs","../inputs/by_bands")
-# x,y = divide_test(image_size_x, image_size_y, "../raw_iputs/validationPoints.txd", "../raw_iputs/k2b.tif")
-# print(x.shape)
-# print(y.shape)
-# water_np_k2b = divide(image_size_x, image_size_y, "../raw_iputs/validationPoints.txd", "../raw_iputs/k2b.tif")
-
-# d = divide_test(image_size_x, image_size_y, "../raw_iputs/validationPoints.txd", "../raw_iputs/k2b.tif",True)
-
-# import tensor
-
-# x_tr,y_tr,l_tr = tensor.get_data_set()
-
-# print(x_tr.shape)
-# print(y_tr.shape)
-# print(l_tr)
