@@ -7,7 +7,7 @@ G = band 3
 B = band 2
 '''
 
-def merge(load_path,save_path):
+def merge(load_path,save_path, test = False):
 	"""Merges divided files. Saves every class to appropriate folder
 
 	Recommendation: Run divide before running merging operation
@@ -15,30 +15,36 @@ def merge(load_path,save_path):
 	Args:
 		load_path: path to divided input file
 		save_path: where to save merged data
+		test: if test is false, train data is merged, else test is merged.
 
 	Returns:
 		None
 
 	"""
+
+	dtype = "np"
+	if test:
+		dtype = "tst"
+
 	agri = []
 	build = []
 	tree = []
 	water = []
 
-	agri_np_k2b = np.load(load_path + "/agri_np_k2b.npy")
-	build_np_k2b = np.load(load_path + "/build_np_k2b.npy")
-	tree_np_k2b = np.load(load_path + "/tree_np_k2b.npy")
-	water_np_k2b = np.load(load_path + "/water_np_k2b.npy")
+	agri_np_k2b = np.load(load_path + "/agri_{0}_k2b.npy".format(dtype))
+	build_np_k2b = np.load(load_path + "/build_{0}_k2b.npy".format(dtype))
+	tree_np_k2b = np.load(load_path + "/tree_{0}_k2b.npy".format(dtype))
+	water_np_k2b = np.load(load_path + "/water_{0}_k2b.npy".format(dtype))
 
-	agri_np_k3b = np.load(load_path + "/agri_np_k3b.npy")
-	build_np_k3b = np.load(load_path + "/build_np_k3b.npy")
-	tree_np_k3b = np.load(load_path + "/tree_np_k3b.npy")
-	water_np_k3b = np.load(load_path + "/water_np_k3b.npy")
+	agri_np_k3b = np.load(load_path + "/agri_{0}_k3b.npy".format(dtype))
+	build_np_k3b = np.load(load_path + "/build_{0}_k3b.npy".format(dtype))
+	tree_np_k3b = np.load(load_path + "/tree_{0}_k3b.npy".format(dtype))
+	water_np_k3b = np.load(load_path + "/water_{0}_k3b.npy".format(dtype))
 
-	agri_np_k4b = np.load(load_path + "/agri_np_k4b.npy")
-	build_np_k4b = np.load(load_path + "/build_np_k4b.npy")
-	tree_np_k4b = np.load(load_path + "/tree_np_k4b.npy")
-	water_np_k4b = np.load(load_path + "/water_np_k4b.npy")
+	agri_np_k4b = np.load(load_path + "/agri_{0}_k4b.npy".format(dtype))
+	build_np_k4b = np.load(load_path + "/build_{0}_k4b.npy".format(dtype))
+	tree_np_k4b = np.load(load_path + "/tree_{0}_k4b.npy".format(dtype))
+	water_np_k4b = np.load(load_path + "/water_{0}_k4b.npy".format(dtype))
 
 	for i in range(agri_np_k2b.shape[0]):
 		elem = []
@@ -95,8 +101,12 @@ def merge(load_path,save_path):
 	tree = np.array(tree)
 	water = np.array(water)
 
-	np.save(save_path + "/agri/agri",agri)
-	np.save(save_path + "/build/build",build)
-	np.save(save_path + "/tree/tree",tree)
-	np.save(save_path + "/water/water",water)
+	dtype = "train"
+	if test:
+		dtype = "test"
+
+	np.save(save_path + "/{0}/agri/agri".format(dtype),agri)
+	np.save(save_path + "/{0}/build/build".format(dtype),build)
+	np.save(save_path + "/{0}/tree/tree".format(dtype),tree)
+	np.save(save_path + "/{0}/water/water".format(dtype),water)
 
