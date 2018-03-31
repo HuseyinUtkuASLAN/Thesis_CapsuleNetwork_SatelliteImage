@@ -107,3 +107,5 @@ to_do.txt
 input/inputs/
 input/inputs/train/
 input/inputs/test/
+input/train/
+input/test/
