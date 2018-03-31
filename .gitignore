@@ -100,8 +100,10 @@ ENV/
 # mypy
 .mypy_cache/
 
-# inputs
-./input/inputs
-
 #to-do
 to_do.txt
+
+# generated input files for data
+./input/inputs
+./input/train
+./input/test
