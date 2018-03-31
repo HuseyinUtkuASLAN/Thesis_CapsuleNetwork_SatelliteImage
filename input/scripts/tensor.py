@@ -6,12 +6,12 @@ import pickle
 
 
 
-def get_data_set(name = "train",normalize = False):
+def create_tensor(name = "train",normalize = False, flatten = False):
 	x = []
 	y = []
 	l = ["agriculture", "tree", "building", "water"]
 
-	folder_name = "../inputs/merged/"
+	folder_name = "../inputs/"
 	if name == "train":
 		folder_name += "train/"
 	elif name == "test":
@@ -19,15 +19,15 @@ def get_data_set(name = "train",normalize = False):
 
 	def label_index(label):
 		i = 0
-		if label == "agri":
+		if label == "agri.npy":
 			i = 0
-		elif label == "tree":
+		elif label == "tree.npy":
 			i = 1
-		elif label == "build":
+		elif label == "build.npy":
 			i = 2
-		elif label == "water":
+		elif label == "water.npy":
 			i = 3
-		elif label == "unclassified":
+		elif label == "unclassified.npy":
 			i = 4
 		else:
 			print("ERROR LABEL!!!!!")
@@ -41,18 +41,22 @@ def get_data_set(name = "train",normalize = False):
 		dirs.extend(dirnames)
 		files.extend(filenames)
 
+	
+
 	for i,file_name in enumerate(files):
 		y_class = []
 		# read data
-		data = np.load(folder_name + dirs[i] + "/" + file_name)
+		data = np.load(folder_name + "/" + file_name)
 		
 		reshaped = []
 
 
 		for d in data:
-			reshaped.append(d.flatten())
-			y_row = np.zeros(len(dirs))
-			y_row[label_index(dirs[i])] = 1
+			if flatten:
+				d = d.flatten()
+			reshaped.append(d)
+			y_row = np.zeros(len(files))
+			y_row[label_index(file_name)] = 1
 			y_class.append(y_row)
 		y.extend(y_class)
 		x.extend(reshaped)
@@ -69,5 +73,5 @@ def get_data_set(name = "train",normalize = False):
 
 	return np.array(x), np.array(y), l
 
-# print(get_data_set(name = "train",normalize = True))
-# get_data_set(name = "train")[0].shape
+# print(get_data_set(name = "train"))
+# get_data_set(name = "train")
