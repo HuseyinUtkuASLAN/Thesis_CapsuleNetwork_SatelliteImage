@@ -104,6 +104,6 @@ ENV/
 to_do.txt
 
 # generated input files for data
-./input/inputs/
-./input/inputs/train/
-./input/inputs/test/
+input/inputs/
+input/inputs/train/
+input/inputs/test/
