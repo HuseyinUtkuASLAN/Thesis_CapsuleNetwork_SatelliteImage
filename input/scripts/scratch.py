@@ -31,34 +31,34 @@ def divide(image_size_x, image_size_y, file_path, image_path):
 	im = Image.open(image_path)
 	imarray = np.array(im)
 
-	x_size = image_size_x / 2
-	y_size = image_size_y / 2
+	x_size = int(image_size_x / 2)
+	y_size = int(image_size_y / 2)
 
 	array = []
 
 	for line in file:
 		line = line.split(' ')
-		x = int(line[0].strip()) - 16
-		y = int(line[1].strip()) - 16
+		x = int(line[0].strip()) - x_size
+		y = int(line[1].strip()) - y_size
 		
 		
 
 
-		if int(line[0].strip()) + 16 > imarray.shape[0]: 
+		if int(line[0].strip()) + x_size > imarray.shape[0]: 
 			print (file.name ,"x out of bound ", x , "\tpivot moved")
-			x = imarray.shape[0] - 16
-		if int(line[0].strip()) - 16 < 0:
+			x = imarray.shape[0] - image_size_x
+		if int(line[0].strip()) - x_size < 0:
 			print (file.name ,"x out of bound ", x , "\tpivot moved")
-			x = 16
+			x = 0
 
 		
 
-		if int(line[1].strip()) + 16 > imarray.shape[1]: 
+		if int(line[1].strip()) + y_size > imarray.shape[1]: 
 			print (file.name ,"y out of bound ", y , "\tpivot moved")
-			y = imarray.shape[0] - 16
-		if int(line[1].strip()) - 16 < 0:
+			y = imarray.shape[1] - image_size_y
+		if int(line[1].strip()) - y_size < 0:
 			print (file.name ,"y out of bound ", y , "\tpivot moved")
-			y = 16
+			y = 0
 		
 		img = imarray[x:x+image_size_x,y:y+image_size_y]
 
@@ -92,8 +92,8 @@ def divide_test(image_size_x, image_size_y, file_path, image_path, unclassified 
 	im = Image.open(image_path)
 	imarray = np.array(im)
 
-	x_size = image_size_x / 2
-	y_size = image_size_y / 2
+	x_size = int(image_size_x / 2)
+	y_size = int(image_size_y / 2)
 
 	array = []
 	labels = []
@@ -103,8 +103,8 @@ def divide_test(image_size_x, image_size_y, file_path, image_path, unclassified 
 	
 	for line in file:
 		line = line.split(' ')
-		x = int(line[0].strip()) - 16
-		y = int(line[1].strip()) - 16
+		x = int(line[0].strip()) - x_size
+		y = int(line[1].strip()) - y_size
 		# labels of test classes // validation has 3 columns
 		l = int(line[2].strip())
 		
@@ -113,29 +113,30 @@ def divide_test(image_size_x, image_size_y, file_path, image_path, unclassified 
 			continue
 
 
-		if int(line[0].strip()) + 16 > imarray.shape[0]: 
+		if int(line[0].strip()) + x_size > imarray.shape[0]: 
 			print (file.name ,"x out of bound ", x , "\tpivot moved")
-			x = imarray.shape[0] - 16
-		if int(line[0].strip()) - 16 < 0:
+			x = imarray.shape[0] - image_size_x
+		if int(line[0].strip()) - x_size < 0:
 			print (file.name ,"x out of bound ", x , "\tpivot moved")
-			x = 16
+			x = 0
 
 		
 
-		if int(line[1].strip()) + 16 > imarray.shape[1]: 
+		if int(line[1].strip()) + y_size > imarray.shape[1]: 
 			print (file.name ,"y out of bound ", y , "\tpivot moved")
-			y = imarray.shape[0] - 16
-		if int(line[1].strip()) - 16 < 0:
+			y = imarray.shape[1] - image_size_y
+		if int(line[1].strip()) - y_size < 0:
 			print (file.name ,"y out of bound ", y , "\tpivot moved")
-			y = 16
-		
+			y = 0
+
 		img = imarray[x:x+image_size_x,y:y+image_size_y]
 		array.append(img)
 
 		label = label_def[l-1]
 		labels.append(label)
 
-
+	# for a in array:
+	# 	print(a.shape)
 	array = np.array(array)
 	labels = np.array(labels)
 	return array, labels
