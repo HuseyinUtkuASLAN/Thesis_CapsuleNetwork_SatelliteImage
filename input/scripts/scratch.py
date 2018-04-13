@@ -191,9 +191,39 @@ def create_3_band_array(k2b, k3b, k4b, bgr = False):
 
 	return np.array(datas,dtype = np.float64)
 
-def k_band(image_size_x, image_size_y,load_path,class_type):
-	k2b = divide(image_size_x, image_size_y, load_path + "/" + class_type + ".txd", load_path + "/k2b.tif")
-	k3b = divide(image_size_x, image_size_y, load_path + "/" + class_type + ".txd", load_path + "/k3b.tif")
-	k4b = divide(image_size_x, image_size_y, load_path + "/" + class_type + ".txd", load_path + "/k4b.tif")
+def create_k_band_array(bands, k = [1,2,3,4,5,6,7,8,9,10,11,12]):
+	k = np.array(k)
+	assert bands.shape[0] >= k.shape[0], "shape of bands is smaller than k {0} !>= {1}".format(bands.shape[0],k.shape[0])
+	assert bands.shape[0] >= k.max(), "shape of bands is smaller than k {0} !>= {1}".format(bands.shape[0],k.max())
+	assert k.min() > 0, "minimum value of k must be at least 1"
+	# decrease 1 from k's elements for turning it to index values
+	k -= 1
 
-	return k2b, k3b, k4b
+	datas = []
+
+	for i in range(bands[0].shape[0]):
+		image = []
+		for x in range(bands[0].shape[1]):
+			row = []
+			for y in range(bands[0].shape[2]):
+				pixel = []
+				for ks in k:
+					pixel.append(bands[ks][i,x,y])
+				row.append(pixel)
+			image.append(np.array(row))
+		datas.append(np.array(image))
+
+	return np.array(datas,dtype = np.float64)
+
+
+
+def k_band(image_size_x, image_size_y,load_path,class_type,bands = [2,3,4]):
+	band = []
+	for i in bands:
+		k = divide(image_size_x, image_size_y, load_path + "/" + class_type + ".txd", load_path + "/k"+ str(i) +"b.tif")
+		band.append(k)
+	# k2b = divide(image_size_x, image_size_y, load_path + "/" + class_type + ".txd", load_path + "/k2b.tif")
+	# k3b = divide(image_size_x, image_size_y, load_path + "/" + class_type + ".txd", load_path + "/k3b.tif")
+	# k4b = divide(image_size_x, image_size_y, load_path + "/" + class_type + ".txd", load_path + "/k4b.tif")
+
+	return np.array(band)

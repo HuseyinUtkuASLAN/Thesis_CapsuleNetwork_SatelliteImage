@@ -6,16 +6,18 @@ import pickle
 
 
 
-def create_tensor(name = "train",normalize = False, flatten = False):
+def create_tensor(name = "train",normalize = False, flatten = False, n_band = 3):
 	x = []
 	y = []
 	l = ["agriculture", "tree", "building", "water"]
 
+	band = "_" + str(n_band) + "band"
+
 	folder_name = "../inputs/"
 	if name == "train":
-		folder_name += "train/"
+		folder_name += "train" + band + "/"
 	elif name == "test":
-		folder_name += "test/"
+		folder_name += "test" + band + "/"
 
 	def label_index(label):
 		i = 0
