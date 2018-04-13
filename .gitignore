@@ -105,7 +105,8 @@ to_do.txt
 
 # generated input files for data
 input/inputs/
-input/inputs/train/
-input/inputs/test/
-input/train/
-input/test/
+input/train_3band/
+input/test_3band/
+input/train_12band/
+input/test_12band/
+tensorboard/
