@@ -105,8 +105,9 @@ to_do.txt
 
 # generated input files for data
 input/inputs/
-input/train_3band/
-input/test_3band/
-input/train_12band/
-input/test_12band/
+input/data_32x32_12band/
+input/data_32x32_3band/
+input/data_9x9_12band/
+input/data_9x9_3band/
 tensorboard/
+result/
