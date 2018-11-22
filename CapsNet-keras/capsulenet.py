@@ -1,4 +1,8 @@
 """
+I made few changes but credit should go to Xifeng Guo!!!!!!!!
+"""
+
+"""
 Keras implementation of CapsNet in Hinton's paper Dynamic Routing Between Capsules.
 The current version maybe only works for TensorFlow backend. Actually it will be straightforward to re-write to TF code.
 Adopting to other backends should be easy, but I have not tested this. 
@@ -21,11 +25,17 @@ from keras import layers, models, optimizers
 from keras import backend as K
 from keras.utils import to_categorical
 import matplotlib.pyplot as plt
-from utils import combine_images
+from utils import combine_images, plot_confusion_matrix
 from PIL import Image
 from capsulelayers import CapsuleLayer, PrimaryCap, Length, Mask
 from data import get_data_set
 K.set_image_data_format('channels_last')
+
+
+from numpy.random import seed
+seed(1)
+from tensorflow import set_random_seed
+set_random_seed(2)
 
 
 def CapsNet(input_shape, n_class, routings):
@@ -162,7 +172,7 @@ def test(model, data, args):
     print('Reconstructed images are saved to %s/real_and_recon.png' % args.save_dir)
     print('-' * 30 + 'End: test' + '-' * 30)
     plt.imshow(plt.imread(args.save_dir + "/real_and_recon.png"))
-    plt.show()
+    # plt.show()
 
 
 def manipulate_latent(model, data, args):
@@ -249,8 +259,8 @@ if __name__ == "__main__":
     # load data
     # x_train, y_train = get_data_set("train",normalize = True)
     # x_test, y_test = get_data_set("test",normalize = True)
-    x_train,y_train = get_data_set("train",input_path = "../input/data_9x9_12band/",one_hot = True)
-    x_test,y_test = get_data_set("test",input_path = "../input/data_9x9_12band/", one_hot = True)
+    x_train,y_train = get_data_set("train",input_path = "../input/data_9x9_13band/",one_hot = True)
+    x_test,y_test = get_data_set("test",input_path = "../input/data_9x9_13band/", one_hot = True)
     # print("\n\n",x_train.shape,"\n\n")
 
     # y_train = one_hot(y_train)
@@ -272,5 +282,13 @@ if __name__ == "__main__":
     else:  # as long as weights are given, will run testing
         if args.weights is None:
             print('No weights are provided. Will test using random initialized weights.')
-        manipulate_latent(manipulate_model, (x_test, y_test), args)
+        # manipulate_latent(manipulate_model, (x_test, y_test), args)
         test(model=eval_model, data=(x_test, y_test), args=args)
+        # print(y_train)
+        from sklearn.metrics import classification_report, confusion_matrix
+        # print(x_test.shape)
+        Y_pred = model.predict([x_test,y_test])
+        y_pred = np.argmax(Y_pred[0], axis=1)
+        y_expected = np.argmax(y_test,axis = 1)
+        cnf_matrix = confusion_matrix(y_expected, y_pred)
+        plot_confusion_matrix(cnf_matrix,["Agriculture","Tree Cover","Build-up Areas","Water Bodies"])
