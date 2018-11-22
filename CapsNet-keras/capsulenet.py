@@ -13,11 +13,7 @@ Usage:
        python capsulenet.py --epochs 50 --routings 3
        ... ...
        
-Result:
-    Validation accuracy > 99.5% after 20 epochs. Converge to 99.66% after 50 epochs.
-    About 110 seconds per epoch on a single GTX1070 GPU card
-    
-Author: Xifeng Guo, E-mail: `guoxifeng1990@163.com`, Github: `https://github.com/XifengGuo/CapsNet-Keras`
+Author: Xifeng Guo, E-mail: <can't add due to privacy reasons>, Github: `https://github.com/XifengGuo/CapsNet-Keras`
 """
 
 import numpy as np

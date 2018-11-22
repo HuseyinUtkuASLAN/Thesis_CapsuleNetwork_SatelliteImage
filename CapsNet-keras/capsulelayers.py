@@ -4,7 +4,7 @@ not just on MNIST.
 *NOTE*: some functions can be implemented in multiple ways, I keep all of them. You can try them for yourself just by
 uncommenting them and commenting their counterparts.
 
-Author: Xifeng Guo, E-mail: `guoxifeng1990@163.com`, Github: `https://github.com/XifengGuo/CapsNet-Keras`
+Author: Xifeng Guo, E-mail: <can't add due to privacy reasons>, Github: `https://github.com/XifengGuo/CapsNet-Keras`
 """
 
 import keras.backend as K
