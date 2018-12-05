@@ -39,7 +39,7 @@ We used VGGNet and AlexNet to compare results. Due to image sizes, paddings are 
 Highest accuracy we got is 90.41% with CapsNet trained with 9x9 image sizes with all 13 bands while closest accuracy received is 89.66% with AlexNet trained with 9x9 image sizes with all 13 bands. When we look at the[“EuroSAT: A Novel Dataset and Deep Learning Benchmark for Land Use and Land Cover Classification”](https://arxiv.org/abs/1709.00029) paper, we see that highest accuracy they received is with RGB bands but in out tests we’ve observed that, 13 bands gives better accuracy. They received 98.57% with ResNet-50. Our dataset is considarably small compare to theies. Ours has 1197 images with 4 labels while theirs has 28000 images with 10 labels.
 
 
-| Architectures | 9x9x13 | 9x9x3 | 32x32x3 | 32x32x13 |
+| Architectures | 9x9x3 | 32x32x3 | 9x9x13 | 32x32x13 |
 | --- | --- | --- | --- | --- |
 | AlexNet | 78.18 | 72.76 | 89.66 | 85.37 |
 | VGGNet A | 78.56 | 79.19 | 87.89 | 86.00 |
